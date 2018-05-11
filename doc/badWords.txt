@@ -1,0 +1,6 @@
+*badWords.txt*	Plugin for highlighting words to avoid in educational writing
+
+Only English and French words are referenced at the moment.
+
+*badWords-settings*
+This plugin doesn't have any settings.
