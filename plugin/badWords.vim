@@ -12,7 +12,7 @@ let g:loaded_badWords = 1
 highlight badWords ctermbg=red ctermfg=white
 
 fun! HighlightBadWords()
-  let en=[ 'obviously', 'basically', 'simply', 'of course', 'just', 'everyone knows', 'so,', 'easy' ]
+  let en=[ 'obviously', 'basically', 'simply', 'of course', 'just', 'everyone knows', 'so,', 'easy', 'easily', 'trivial', 'trivially' ]
   let fr=[ 'évidemment', 'simplement', 'clairement', 'facile', 'bien sur' ]
 
   for lang in [ en, fr ]
