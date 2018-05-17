@@ -16,7 +16,8 @@ fun! HighlightBadWords()
   let fr=[ 'évidemment', 'simplement', 'clairement', 'facile', 'facilement', 'trivial', 'trivialement', 'bien sur' ]
 
   for lang in [ en, fr ]
-    call matchadd('badWords', '\c\<\(' . join(lang, '\|') . '\)\>')
+    let matcher='\c\<\(' . join(lang, '\|') . '\)\>'
+    call matchadd('badWords', matcher)
   endfor
 endfun
 
