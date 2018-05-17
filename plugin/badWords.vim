@@ -13,7 +13,7 @@ highlight badWords ctermbg=red ctermfg=white
 
 fun! HighlightBadWords()
   let en=[ 'obviously', 'basically', 'simply', 'of course', 'just', 'everyone knows', 'so,', 'easy', 'easily', 'trivial', 'trivially' ]
-  let fr=[ 'évidemment', 'simplement', 'clairement', 'facile', 'bien sur' ]
+  let fr=[ 'évidemment', 'simplement', 'clairement', 'facile', 'facilement', 'trivial', 'trivialement', 'bien sur' ]
 
   for lang in [ en, fr ]
     call matchadd('badWords', '\c\<\(' . join(lang, '\|') . '\)\>')
