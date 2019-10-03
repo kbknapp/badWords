@@ -2,24 +2,47 @@
 " Maintainer:	Xavier Maso <xav.maso@gmail.com>
 " License:	This file is placed in the public domain.
 
+function! s:ShowBadWords(force)
+  if a:force
+    let b:bad_whitespace_show = 1
+  endif
+  highlight default BadWords ctermbg=red guibg=red ctermfg=white guifg=white
+  autocmd ColorScheme <buffer> highlight default BadWords ctermbg=red guibg=red ctermfg=white guifg=white
 
-if exists("g:loaded_badWords")
-  finish
-endif
-let g:loaded_badWords = 1
+  autocmd InsertLeave <buffer> match BadWords /\c\<\(obvious\|obviously\|basically\|simply\|of\scourse\|everyone\sknows\|easy\|easily\|trivial\|trivially\)\>/
+  autocmd InsertEnter <buffer> match BadWords /\c\<\(obvious\|obviously\|basically\|simply\|of\scourse\|everyone\sknows\|easy\|easily\|trivial\|trivially\)\>/
+endfunction
 
+function! s:HideBadWords(force)
+  if a:force
+    let b:bad_words_show = 0
+  endif
+  match none BadWords
+endfunction
 
-highlight badWords ctermbg=red ctermfg=white
+function! s:EnableShowBadWords()
+  if exists("b:bad_words_show")
+    return
+  endif
+  if &modifiable
+    call <SID>ShowBadWords(0)
+  else
+    call <SID>HideBadWords(0)
+  endif
+endfunction
 
-fun! HighlightBadWords()
-  let en=[ 'obvious', 'obviously', 'basic', 'basically', 'simply', 'of course', 'just', 'everyone knows', 'easy', 'easily', 'trivial', 'trivially' ]
-  let fr=[ 'évidemment', 'simplement', 'clairement', 'facile', 'facilement', 'trivial', 'trivialement', 'bien sur' ]
+function! s:ToggleBadWords()
+  if !exists("b:bad_words_show")
+    let b:bad_words_show = 0
+    if &modifiable
+      let b:bad_words_show = 1
+    endif
+  endif
+  if b:bad_words_show
+    call <SID>HideBadWords(1)
+  else
+    call <SID>ShowBadWords(1)
+  endif
+endfunction
 
-  for lang in [ en, fr ]
-    let matcher='\c\<\(' . join(lang, '\|') . '\)\>'
-    call matchadd('badWords', matcher)
-  endfor
-endfun
-
-autocmd BufRead,BufNewFile *.md,*.txt,*.rst call HighlightBadWords()
-autocmd InsertLeave *.md,*.txt,*.rst call HighlightBadWords()
+autocmd BufWinEnter,WinEnter,FileType *.md,*.txt,*.rst call <SID>EnableShowBadWords()
